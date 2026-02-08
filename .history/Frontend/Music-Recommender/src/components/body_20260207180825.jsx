@@ -17,13 +17,10 @@ function Body() {
         <main className="body">
             <div className="content">
                 <h2>Placeholder for now</h2>
-                <div className="search-container">
-                    <input type="text" className = "search-input" placeholder ="Enter song details"
-                        value ={input}
-                        onChange={(e) => setInput(e.target.value)} />
-                        <button className = "submit-button" onClick={handleButtonClick}>Submit</button>
-                </div>
-                
+                <input type="text" placeholder ="Enter song details"
+                value ={input}
+                onChange={(e) => setInput(e.target.value)} />
+                <button onClick={handleButtonClick}>Submit</button>
                 <p>App content will go here in the future</p>
                 </div>
         </main>

@@ -23,7 +23,6 @@
 
 .search-container {
   display: flex;
-  gap: 0.5rem;
 }
 
 .search-input {

@@ -24,20 +24,20 @@
 .search-container {
   display: flex;
   gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .search-input {
   flex: 1;
   padding: 0.5rem;
-  border: 1px solid #000000;
-  border-radius: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .submit-button {
   padding: 0.5rem 1rem;
   background-color: #5a163e;
   color: white;
-  border: none;
   border-radius: 7px;
   cursor: pointer;
 }
