@@ -1,5 +1,5 @@
 import React from 'react'
-import './Header.css'
+import './header.css'
 
 function Header() {
     return (
@@ -7,8 +7,8 @@ function Header() {
             <h1>Music & Podcast Recommender</h1>
             <nav className="nav">
                 <button>Recommendations</button>
-                <button>Browse</button>
-                <button>About</button>
+                <button>Browse & Rate</button>
+                <button>How It Works</button>
             </nav>
         </header>
     );

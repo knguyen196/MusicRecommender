@@ -1,0 +1,22 @@
+.body {
+  flex: 1;
+  padding: 2rem;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.content h2 {
+  margin-bottom: 1rem;
+  color: #000000;
+}
+
+.content p {
+  color: #666;
+  line-height: 1.6;
+}
