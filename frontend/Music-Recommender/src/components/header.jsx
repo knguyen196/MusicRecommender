@@ -1,14 +1,36 @@
-import React from 'react'
+import React from "react"
 import './Header.css'
 
-function Header() {
+//Header component that handles button clicks
+function Header({currentView, setCurrentView}) {
+
+    const getButton = (viewName) => {
+        if (currentView === viewName){
+            return 'active'
+        }
+        return '';
+    };
+
     return (
         <header className="header">
             <h1>Music & Podcast Recommender</h1>
             <nav className="nav">
-                <button>Recommendations</button>
-                <button>Browse</button>
-                <button>About</button>
+
+                <button
+                className = {getButton('Recommendations')}
+                onClick={() => setCurrentView('Recommendations')}
+                >Recommendations</button>
+
+                <button
+                className = {getButton('Browse')}
+                onClick={() => setCurrentView('Browse')}
+                >Browse</button>
+
+                <button
+                className = {getButton('About')}
+                onClick={() =>setCurrentView('About')}
+                >About</button>
+
             </nav>
         </header>
     );
