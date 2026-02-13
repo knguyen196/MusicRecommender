@@ -1,33 +1,33 @@
 import React from "react";
 import { useState } from "react";
-import './Body.css';
+import "./Body.css";
+import Recommendations from "./Recommendations";
+import Browse   from "./Browse";
+import About from "./About";
 
-function Body() {
+function Body({currentView}){
 
-    const [input, setInput] = useState("");
-
-    const handleButtonClick = () => {
-        if (input.trim() === ""){
-            alert("Please enter song details before submitting.");
-            return;
+    const renderView = () => {
+        if (currentView === 'Recommendations'){
+            return <Recommendations/>;
         }
-    }
+
+        if (currentView === 'Browse'){
+            return <Browse/>;
+        }
+
+        if (currentView === 'About'){
+            return <About/>;
+        }
+    };
 
     return (
-        <main className="body">
-            <div className="content">
-                <h2>Placeholder for now</h2>
-                <div className="search-container">
-                    <input type="text" className = "search-input" placeholder ="Enter song details"
-                        value ={input}
-                        onChange={(e) => setInput(e.target.value)} />
-                        <button className = "submit-button" onClick={handleButtonClick}>Submit</button>
-                </div>
-                
-                <p>App content will go here in the future</p>
-                </div>
+        <main className = "body">
+            <div className ="content">
+                {renderView()}
+            </div>
         </main>
-    )
+    );
 }
 
 export default Body;
