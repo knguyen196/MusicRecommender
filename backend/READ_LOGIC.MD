@@ -1,0 +1,2 @@
+Audio files ---> Feature Extraction ---> Feature Vector (how would we rate the features or what features are the most prominent) ---->
+Similarity or ML model based on similar feature vectors ---> Recommend a song
