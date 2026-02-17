@@ -22,7 +22,7 @@ export function SearchBar({ searchQuery, setSearchQuery, onSearch }) {
           <Input
             ref={inputRef}
             type="text"
-            placeholder="Search for music, podcasts, artists..."
+            placeholder="Search for music and podcasts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && onSearch()}
