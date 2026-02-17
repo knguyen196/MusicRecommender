@@ -9,8 +9,9 @@
     --deep-teal: 82, 121, 111;
     --dark-slate-grey: 53, 79, 82;
     --charcoal-blue: 47, 62, 70;
+    --off-white: 245, 245, 245;
     
-    --background: var(--charcoal-blue);
+    --background: var(--off-white);
     --foreground: var(--ash-grey);
     --card: var(--dark-slate-grey);
     --card-foreground: var(--ash-grey);
