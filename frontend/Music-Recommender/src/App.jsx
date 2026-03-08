@@ -5,11 +5,20 @@ import { RecommendationSection } from './components/RecommendationSection'
 import { BrowseSection } from './components/BrowseSection'
 import { AboutSection } from './components/AboutSection'
 import { Footer } from './components/Footer'
+import { RatedSongs} from './components/RatedSongs'
 
 // Main App Component
 function App() {
   const [activeSection, setActiveSection] = useState('recommendation')
   const [searchQuery, setSearchQuery] = useState('')
+  const [ratings, setRatings] = useState({})
+
+  const handleRate = (song, rating) => {
+    setRatings(prev => ({
+      ...prev,
+      [song.id]: {song, rating}
+    }))
+  }
 
   const renderSection = () => {
     switch (activeSection) {
@@ -17,8 +26,11 @@ function App() {
         return <BrowseSection />
       case 'about':
         return <AboutSection />
+      case 'rated':
+        return <RatedSongs ratings={ratings} onRate={handleRate}/> 
       default:
-        return <RecommendationSection searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        return <RecommendationSection searchQuery={searchQuery} setSearchQuery={setSearchQuery}
+        ratings = {ratings} onRate = {handleRate} />
     }
   }
 

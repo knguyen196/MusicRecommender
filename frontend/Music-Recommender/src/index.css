@@ -1005,3 +1005,31 @@
     color: rgb(var(--muted-foreground));
   }
 }
+
+.rated-songs-container {
+    padding: 2rem 0;
+}
+
+.rated-songs-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.rated-section {
+    margin: 3rem 0;
+}
+
+.rated-section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.empty-message {
+    color: #666;
+    font-style: italic;
+    text-align: center;
+    padding: 2rem;
+}
