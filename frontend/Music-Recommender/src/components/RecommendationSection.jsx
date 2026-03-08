@@ -19,7 +19,7 @@ const DUMMY_SONGS = [
   { id: 8, title: "Dior", artist: "Joji", album: "Piss In The Wind", image: pissinthewind }
 ];
 
-export function RecommendationSection({ searchQuery, setSearchQuery }) {
+export function RecommendationSection({ searchQuery, setSearchQuery, ratings, onRate }) {
   const [isSearching, setIsSearching] = useState(false)
   const [searchResults, setSearchResults] = useState([])
 
@@ -86,7 +86,8 @@ export function RecommendationSection({ searchQuery, setSearchQuery }) {
               <SongCard
                 key={song.id}
                 song={song}
-                onRate={(song) => console.log('Rated:', song)}
+                onRate = {onRate}
+                userRating = {ratings[song.id]?.rating}
                 />
             ))}
             </div>

@@ -1,11 +1,33 @@
 import React from 'react';
 import './SongCard.css';
 
-function SongCard({song, onRate}){
-    const handleRateClick = () => {
+//Component for song cards, handles likes and dislikes
+
+function SongCard({song, onRate, userRating}){
+    const handleLike = () => {
         if (onRate){
-            onRate(song);
+            onRate(song, 'Like');
         }
+    };
+
+    const handleDislike = () => {
+        if (onRate){
+            onRate(song, 'Dislike');
+        }
+    };
+
+    const getLike = () => {
+        if (userRating === 'Like'){
+            return 'heart-button active-like'
+        }
+        return 'heart-button'
+    };
+
+    const getDislike = () => {
+        if (userRating === 'Dislike'){
+            return 'heart-button active-dislike'
+        }
+        return 'heart-button'
     };
 
     return (
@@ -16,7 +38,18 @@ function SongCard({song, onRate}){
                 <p className="song-artist">{song.artist}</p>
                 <p className="song-album">{song.album}</p>
             </div>
-            <button className="rate-button" onClick={handleRateClick}>Rate</button>
+            <div className = "rating-buttons">
+                <button className = {getLike()}
+                onClick ={handleLike}
+                >
+                ❤️  
+                </button>
+                <button className = {getDislike()}
+                onClick = {handleDislike}
+                >
+                💔
+                </button>
+            </div>
         </div>
     );
 }
