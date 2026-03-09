@@ -1,9 +1,12 @@
+import os
 import time
 import base64
 import requests
+from dotenv import load_dotenv
 
-CLIENT_ID = "854e02f7fce840cbaa80e8761ec6064a"
-CLIENT_SECRET = "e6fc7e09495744e4b33f1810437f27b0"
+load_dotenv()
+CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
+CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
 
 
 class SpotifyClient:

@@ -165,7 +165,6 @@ Chezile
 Chief Keef
 Childish Gambino
 Chris Brown
-Chris Grey
 Chris Isaak
 Chris Rainbow
 Chris Stapleton
@@ -182,6 +181,7 @@ Cochise
 Cocteau Twins
 Coldplay
 Conan Gray
+Counting Crows
 Creed
 Creedence Clearwater Revival
 Creepy Nuts
@@ -314,6 +314,7 @@ Gal Costa
 Geese
 George Harrison
 George Michael
+Gerry Rafferty
 Gesaffelstein
 Ghost
 Gigi Perez
@@ -344,7 +345,6 @@ Hans Zimmer
 Harry Styles
 Have a Nice Life
 Hayley Williams
-Heart
 Hearts2Hearts
 Her's
 Hole
@@ -642,7 +642,6 @@ Owl City
 Ozuna
 Ozzy Osbourne
 P!nk
-P1Harmony
 PARTYNEXTDOOR
 PASTEL GHOST
 PEDRO SAMPAIO
@@ -681,6 +680,7 @@ Portishead
 Portugal. The Man
 Post Malone
 Prince
+Pulp
 Pusha T
 Quality Control
 Quavo
@@ -763,7 +763,7 @@ Ski Mask the Slump God
 Skillet
 Skrillex
 Sky Ferreira
-Slayer
+Slayr
 Slayyyter
 Sleep Token
 Sleeping With Sirens

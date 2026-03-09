@@ -1,7 +1,11 @@
+import os
 import requests
 from pathlib import Path
+from dotenv import load_dotenv
 
-API_KEY = "77da8a99ab7d75db3c8e26bda40c455c" 
+load_dotenv()
+
+API_KEY = os.getenv("LASTFM_API_KEY")
 OUTPUT = Path("backend/artist_list.txt")
 
 LIMIT = 1000  # Last.fm max per request
@@ -9,7 +13,7 @@ LIMIT = 1000  # Last.fm max per request
 
 def fetch_top_artists(limit=1000):
     if not API_KEY:
-        raise RuntimeError("Missing API key. Set API_KEY at the top of the file.")
+        raise RuntimeError("Missing LASTFM_API_KEY in .env")
 
     url = "http://ws.audioscrobbler.com/2.0/"
     params = {
