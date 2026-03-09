@@ -1,2 +1,2 @@
-Audio files ---> Feature Extraction ---> Feature Vector (how would we rate the features or what features are the most prominent) ---->
-Similarity or ML model based on similar feature vectors ---> Recommend a song
+Spotify Client is used to extract the songs from the artists. Deezer provides us with the temporary mp4 file to analyze.
+Feature Extraction occurs and we save these features to our database, which will be used for later recommendation.
