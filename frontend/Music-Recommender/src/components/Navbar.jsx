@@ -21,7 +21,7 @@ export function Navbar({ activeSection, setActiveSection }) {
       <div className="navbar-container">
         <div className="navbar-content">
           {/* Title */}
-          <h1 className="navbar-title">Music Recommender</h1>
+     
           
           {/* Desktop Navigation */}
           <div className="nav-desktop">
