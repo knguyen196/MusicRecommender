@@ -1,5 +1,4 @@
 import React from 'react';
-import './SongCard.css';
 
 //Component for song cards, handles likes and dislikes
 
