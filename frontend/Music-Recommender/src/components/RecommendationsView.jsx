@@ -5,12 +5,13 @@ import SongCard from './SongCard'
 import ballads1 from './ui/dummyimages/ballads1.png'
 import nectar from './ui/dummyimages/nectar.png'
 import smithereens from './ui/dummyimages/smithereens.jpg'
+import pissinthewind from './ui/dummyimages/pissinthewind.jpg'
 
 const MOCK_RECOMMENDATIONS = [
-  { id: 10, title: "Run", artist: "Joji", album: "Nectar", image: nectar },
-  { id: 11, title: "Tick Tock", artist: "Joji", album: "BALLADS 1", image: ballads1 },
-  { id: 12, title: "Pretty Boy", artist: "Joji", album: "Smithereens", image: smithereens },
-  { id: 13, title: "Afterthought", artist: "Joji", album: "Nectar", image: nectar },
+  { id: 10, title: "CAN'T SEE SH*T IN THE CLUB", artist: "Joji", album: "Piss In The Wind", image: pissinthewind },
+  { id: 11, title: "TEST DRIVE", artist: "Joji", album: "BALLADS 1", image: ballads1 },
+  { id: 12, title: "Pretty Boy", artist: "Joji", album: "Nectar", image: nectar },
+  { id: 13, title: "1AM FREESTYLE", artist: "Joji", album: "Smithereens", image: smithereens },
 ]
 
 export function RecommendationsView({ ratings, onRate}){
