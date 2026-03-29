@@ -34,8 +34,8 @@ export function WeightSlider({ weight, setWeight }) {
         />
         
         <div className="slider-value">
-          <span>{weight}% Content-Based</span>
-          <span>{100 - weight}% Collaborative</span>
+         <span>{100 - weight}% Collaborative</span>
+         <span>{weight}% Content-Based</span>
         </div>
       </div>
     </motion.div>
