@@ -1,17 +1,27 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from './components/Navbar'
-import { RecommendationSection } from './components/RecommendationSection'
+import { SearchSection } from './components/SearchSection'
 import { BrowseSection } from './components/BrowseSection'
 import { AboutSection } from './components/AboutSection'
 import { Footer } from './components/Footer'
 import { RatedSongs} from './components/RatedSongs'
+import { RecommendationsView } from './components/RecommendationsView'
 
 // Main App Component
 function App() {
-  const [activeSection, setActiveSection] = useState('recommendation')
+  const [activeSection, setActiveSection] = useState('search')
   const [searchQuery, setSearchQuery] = useState('')
-  const [ratings, setRatings] = useState({})
+
+  // Load ratings from localStorage on initial render
+  const [ratings, setRatings] = useState(() => {
+    const savedRatings = localStorage.getItem('songRatings')
+    return savedRatings ? JSON.parse(savedRatings) : {}
+  })
+
+  useEffect(() => {
+    localStorage.setItem('songRatings', JSON.stringify(ratings))
+  }, [ratings])
 
   const handleRate = (song, rating) => {
     setRatings(prev => ({
@@ -22,6 +32,8 @@ function App() {
 
   const renderSection = () => {
     switch (activeSection) {
+      case "recommendations":
+        return <RecommendationsView ratings={ratings} onRate={handleRate} />
       case 'browse':
         return <BrowseSection />
       case 'about':
@@ -29,7 +41,7 @@ function App() {
       case 'rated':
         return <RatedSongs ratings={ratings} onRate={handleRate}/> 
       default:
-        return <RecommendationSection searchQuery={searchQuery} setSearchQuery={setSearchQuery}
+        return <SearchSection searchQuery={searchQuery} setSearchQuery={setSearchQuery}
         ratings = {ratings} onRate = {handleRate} />
     }
   }

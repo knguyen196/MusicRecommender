@@ -28,7 +28,7 @@ const VIEW_MODES = [
   { id: 'disliked', label: 'Dislikes' }
 ]
 
-export function RecommendationSection({ searchQuery, setSearchQuery, ratings, onRate }) {
+export function SearchSection({ searchQuery, setSearchQuery, ratings, onRate }) {
   const [isSearching, setIsSearching] = useState(false)
   const [searchResults, setSearchResults] = useState([])
   const [viewMode, setViewMode] = useState('all')
