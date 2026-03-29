@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, Headphones, Radio, Heart, Menu, X } from 'lucide-react'
+import { Sparkles, Headphones, Radio, Heart, Menu, X, Search } from 'lucide-react'
 
 export function Navbar({ activeSection, setActiveSection }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navItems = [
-    { id: 'recommendation', label: 'Recommendation', icon: Sparkles },
+    { id: 'search', label: 'Search', icon: Search},
+    { id: 'recommendations', label: 'Recommendations', icon: Sparkles },
     { id: 'browse', label: 'Browse', icon: Headphones },
     { id: 'rated', label: 'My Ratings', icon: Heart},
     { id: 'about', label: 'About', icon: Radio },
