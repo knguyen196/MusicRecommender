@@ -46,8 +46,8 @@ class SpotifyClient:
     def search_tracks(self, query, limit=10):
         token = self._get_access_token()
 
-        for attempt in range(5):
-            time.sleep(0.25)  
+        for attempt in range(5):  # ← INDENT THIS (4 spaces or 1 tab)
+            time.sleep(0.25)
 
             response = requests.get(
                 "https://api.spotify.com/v1/search",
@@ -67,39 +67,36 @@ class SpotifyClient:
                 time.sleep(wait)
                 continue
 
-
-            try:
-                data = response.json()
-            except ValueError:
-                wait = 1 + attempt
-                print(f"Invalid JSON for '{query}', retrying in {wait}s...")
-                time.sleep(wait)
-                continue
-
-
-            if "error" in data:
-                print(f"Spotify API error for '{query}': {data['error']}")
+            if response.status_code == 200:
+                try:
+                    data = response.json()
+                    
+                    if "error" in data:
+                        print(f"Spotify API error for '{query}': {data['error']}")
+                        return []
+                    
+                    results = []
+                    for track in data.get("tracks", {}).get("items", []):
+                        results.append({
+                            "spotify_id": track["id"],
+                            "name": track["name"],
+                            "artist": track["artists"][0]["name"],
+                            "album": track["album"]["name"],
+                            "cover_url": track["album"]["images"][0]["url"]
+                            if track["album"]["images"] else None,
+                        })
+                    
+                    return results
+                    
+                except (ValueError, KeyError) as e:
+                    print(f"Error parsing response for '{query}': {e}")
+                    return []
+            else:
+                print(f"HTTP {response.status_code} for '{query}'")
                 return []
 
-            break
-
-        else:
-            print(f"Failed to fetch Spotify data for '{query}' after retries, skipping.")
-            return []
-
-
-        results = []
-        for track in data.get("tracks", {}).get("items", []):
-            results.append({
-                "spotify_id": track["id"],
-                "name": track["name"],
-                "artist": track["artists"][0]["name"],
-                "album": track["album"]["name"],
-                "cover_url": track["album"]["images"][0]["url"]
-                if track["album"]["images"] else None,
-            })
-
-        return results
+        print(f"Failed to fetch Spotify data for '{query}' after retries")
+        return []
 
     def get_audio_features(self, track_id):
         token = self._get_access_token()
