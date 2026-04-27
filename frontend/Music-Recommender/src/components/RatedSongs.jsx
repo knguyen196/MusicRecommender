@@ -1,4 +1,4 @@
-﻿// My Ratings page — shows all liked and disliked items
+﻿// My Ratings page shows all liked and disliked items
 import React from "react";
 import { motion } from "framer-motion";
 import SongCard from "./SongCard";
@@ -22,12 +22,12 @@ export function RatedSongs({ ratings, onRate }) {
         animate={{ opacity: 1, y: 0 }}
         className="rated-songs-title"
       >
-        Your Rated Songs and podcasts.
+        Your rated songs and podcasts.
       </motion.h1>
 
       <div className="rated-section">
         <h2 className="rated-section-title">
-          Liked Songs and podcasts. ({likedSongs.length})
+          Liked songs and podcasts. ({likedSongs.length})
         </h2>
         {likedSongs.length > 0 ? (
           <div className="results-grid">
@@ -49,7 +49,7 @@ export function RatedSongs({ ratings, onRate }) {
 
       <div className="rated-section">
         <h2 className="rated-section-title">
-          Disliked Songs and podcasts. ({dislikedSongs.length})
+          Disliked songs and podcasts. ({dislikedSongs.length})
         </h2>
         {dislikedSongs.length > 0 ? (
           <div className="results-grid">
