@@ -1,4 +1,4 @@
-﻿// Card component for a song or podcast with like/dislike rating buttons
+// Card component for a song or podcast with like/dislike rating buttons
 export default function SongCard({ song, onRate, userRating }) {
   const handleRate = (rating) => {
     if (userRating === rating) {

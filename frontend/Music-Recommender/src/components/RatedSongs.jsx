@@ -1,4 +1,4 @@
-﻿// My Ratings page shows all liked and disliked items
+// My Ratings page shows all liked and disliked items
 import React from "react";
 import { motion } from "framer-motion";
 import SongCard from "./SongCard";

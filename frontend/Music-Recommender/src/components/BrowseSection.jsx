@@ -1,4 +1,4 @@
-﻿﻿﻿// Browse page lets users explore songs and podcasts by mood or category
+// Browse page lets users explore songs and podcasts by mood or category
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Music, Podcast } from "lucide-react";
@@ -77,7 +77,7 @@ export function BrowseSection({ ratings, onRate }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/browse/mood/${categoryId}`,
+        `/api/browse/mood/${categoryId}`,
       );
       const data = await response.json();
       setCategorySongs(data.songs || []);
@@ -99,7 +99,7 @@ export function BrowseSection({ ratings, onRate }) {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/podcasts/browse/${encodeURIComponent(categoryName)}`,
+        `/api/podcasts/browse/${encodeURIComponent(categoryName)}`,
       );
       const data = await response.json();
       setCategorySongs(data.podcasts || []);

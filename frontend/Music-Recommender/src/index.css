@@ -4,31 +4,53 @@
 
 @layer base {
   :root {
-    --ash-grey: 202, 210, 197;
-    --muted-teal: 132, 169, 140;
-    --deep-teal: 82, 121, 111;
-    --dark-slate-grey: 53, 79, 82;
-    --charcoal-blue: 47, 62, 70;
-    --off-white: 245, 245, 245;
+    /* Sonic Noir (design tokens) */
+    --sn-surface: 13, 20, 29; /* #0d141d */
+    --sn-surface-dim: 13, 20, 29; /* #0d141d */
+    --sn-surface-bright: 51, 58, 68; /* #333a44 */
+    --sn-surface-container-lowest: 8, 15, 23; /* #080f17 */
+    --sn-surface-container-low: 21, 28, 37; /* #151c25 */
+    --sn-surface-container: 25, 32, 41; /* #192029 */
+    --sn-surface-container-high: 35, 42, 52; /* #232a34 */
+    --sn-surface-container-highest: 46, 53, 63; /* #2e353f */
+    --sn-on-surface: 220, 227, 240; /* #dce3f0 */
+    --sn-on-surface-variant: 204, 195, 216; /* #ccc3d8 */
+    --sn-outline: 149, 141, 161; /* #958da1 */
+    --sn-outline-variant: 74, 68, 85; /* #4a4455 */
+    --sn-primary: 210, 187, 255; /* #d2bbff */
+    --sn-primary-container: 124, 58, 237; /* #7c3aed */
+    --sn-secondary: 206, 189, 255; /* #cebdff */
+    --sn-secondary-container: 79, 49, 156; /* #4f319c */
+    --sn-tertiary: 255, 183, 132; /* #ffb784 */
+    --sn-tertiary-container: 161, 81, 0; /* #a15100 */
 
-    --background: var(--off-white);
-    --foreground: var(--ash-grey);
-    --card: var(--dark-slate-grey);
-    --card-foreground: var(--ash-grey);
-    --muted: var(--dark-slate-grey);
-    --muted-foreground: var(--muted-teal);
-    --border: var(--deep-teal);
+    /* Back-compat aliases (keep existing class styles working) */
+    --off-white: var(--sn-surface);
+    --ash-grey: var(--sn-on-surface);
+    --charcoal-blue: var(--sn-surface-container-low);
+    --dark-slate-grey: var(--sn-surface-container);
+    --deep-teal: var(--sn-primary-container);
+    --muted-teal: var(--sn-secondary);
+
+    --background: var(--sn-surface);
+    --foreground: var(--sn-on-surface);
+    --card: var(--sn-surface-container);
+    --card-foreground: var(--sn-on-surface);
+    --muted: var(--sn-surface-container-high);
+    --muted-foreground: var(--sn-on-surface-variant);
+    --border: var(--sn-outline-variant);
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: var(--charcoal-blue);
-    --foreground: var(--ash-grey);
-    --card: var(--dark-slate-grey);
-    --card-foreground: var(--ash-grey);
-    --muted: var(--dark-slate-grey);
-    --muted-foreground: var(--muted-teal);
-    --border: var(--deep-teal);
+    /* Sonic Noir is already a true-dark system; keep parity */
+    --background: var(--sn-surface);
+    --foreground: var(--sn-on-surface);
+    --card: var(--sn-surface-container);
+    --card-foreground: var(--sn-on-surface);
+    --muted: var(--sn-surface-container-high);
+    --muted-foreground: var(--sn-on-surface-variant);
+    --border: var(--sn-outline-variant);
   }
 }
 
@@ -40,9 +62,8 @@
   body {
     background-color: rgb(var(--background));
     color: rgb(var(--foreground));
-    font-feature-settings:
-      "rlig" 1,
-      "calt" 1;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
   }
 }
 
@@ -67,9 +88,7 @@
 
 /* Smooth transitions */
 * {
-  transition-property:
-    color, background-color, border-color, text-decoration-color, fill, stroke,
-    opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -81,6 +100,14 @@
     display: flex;
     flex-direction: column;
     background-color: rgb(var(--background));
+  }
+
+  .page-main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
   }
 
   .main-content {
@@ -102,6 +129,30 @@
     max-width: 72rem;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /* Desktop app shell: left sidebar + main content */
+  @media (min-width: 768px) {
+    .page-container {
+      flex-direction: row;
+      align-items: stretch;
+    }
+
+    .page-main {
+      min-height: 100vh;
+    }
+
+    .main-content {
+      padding-top: 2.5rem;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .content-wrapper {
+      margin-left: 0;
+      margin-right: 0;
+      max-width: 72rem;
+    }
   }
 
   /* ── Navbar ── */
@@ -140,8 +191,9 @@
   }
 
   .navbar-title {
-    font-size: 1.25rem;
-    font-weight: 600;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     color: rgb(var(--foreground));
   }
 
@@ -152,8 +204,52 @@
   }
 
   @media (min-width: 768px) {
+    .navbar {
+      position: sticky;
+      top: 0;
+      right: auto;
+      bottom: 0;
+      height: 100vh;
+      width: clamp(220px, 18vw, 260px);
+      border-bottom: none;
+      border-right: 1px solid rgb(var(--border) / 0.4);
+      background-color: rgba(var(--dark-slate-grey), 0.85);
+    }
+
+    .navbar-container {
+      height: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 1.25rem 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar-content {
+      height: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      gap: 1rem;
+    }
+
+    .navbar-title {
+      font-size: 1.1rem;
+      text-align: left;
+    }
+
     .nav-desktop {
       display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+
+    .nav-button {
+      width: 100%;
+      justify-content: flex-start;
+      border-radius: 0.9rem;
+      padding: 0.75rem 0.9rem;
     }
   }
 
@@ -388,20 +484,21 @@
   }
 
   .hero-title {
-    font-size: 2.25rem;
-    font-weight: 700;
-    letter-spacing: -0.025em;
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
   }
 
   @media (min-width: 640px) {
     .hero-title {
-      font-size: 3rem;
+      font-size: 3.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .hero-title {
-      font-size: 3.75rem;
+      font-size: 4rem;
     }
   }
 
@@ -503,13 +600,14 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: white;
+    background: rgb(var(--card) / 0.9);
+    border: 1px solid rgb(var(--border) / 0.35);
     padding: 0.75rem;
     border-radius: 18px;
     box-shadow:
-      0 4px 6px rgba(0, 0, 0, 0.07),
-      0 10px 20px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      0 14px 30px rgb(0 0 0 / 0.22),
+      0 6px 14px rgb(0 0 0 / 0.14),
+      inset 0 1px 0 rgb(255 255 255 / 0.06);
     text-align: center;
     transition:
       transform 0.25s ease,
@@ -519,9 +617,9 @@
   .song-card:hover {
     transform: translateY(-6px);
     box-shadow:
-      0 8px 16px rgba(0, 0, 0, 0.12),
-      0 20px 40px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      0 18px 44px rgb(0 0 0 / 0.32),
+      0 8px 18px rgb(0 0 0 / 0.16),
+      inset 0 1px 0 rgb(255 255 255 / 0.09);
   }
 
   .song-image {
@@ -543,11 +641,12 @@
   .song-title {
     font-size: 0.9rem;
     margin: 0.1rem 0;
-    color: #333;
+    color: rgb(var(--foreground));
+    letter-spacing: -0.01em;
   }
 
   .song-artist {
-    color: #666;
+    color: rgb(var(--muted-foreground));
     font-size: 0.8rem;
     margin: 0.1rem 0;
     overflow: hidden;
@@ -556,7 +655,7 @@
   }
 
   .song-album {
-    color: #999;
+    color: rgb(var(--muted-foreground) / 0.8);
     font-size: 0.75rem;
     margin: 0.3rem 0;
     font-style: italic;
@@ -759,8 +858,9 @@
   }
 
   .browse-title {
-    font-size: 1.875rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
 
   @media (min-width: 640px) {
@@ -798,7 +898,6 @@
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1rem;
   }
-
   @media (min-width: 640px) {
     .browse-category-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -999,8 +1098,9 @@
   }
 
   .about-title {
-    font-size: 1.875rem;
-    font-weight: 700;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
   }
 
   @media (min-width: 640px) {
@@ -1051,7 +1151,8 @@
 
   .recommendations-title {
     font-size: 2.5rem;
-    font-weight: bold;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     margin-bottom: 1rem;
     text-align: center;
   }
@@ -1068,8 +1169,9 @@
   }
 
   .section-heading {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
     margin-bottom: 1.5rem;
     color: rgb(var(--foreground));
   }
@@ -1097,27 +1199,41 @@
 
   /* ── Weight Slider ── */
   .weight-slider-container {
-    background: white;
+    position: relative;
+    background: linear-gradient(
+      135deg,
+      rgb(var(--card)) 0%,
+      rgb(var(--card) / 0.92) 45%,
+      rgb(var(--muted) / 0.9) 100%
+    );
+    border: 1px solid rgb(var(--muted-teal) / 0.35);
     box-shadow:
-      0 4px 6px rgba(0, 0, 0, 0.07),
-      0 10px 20px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
-    padding: 1rem 1.25rem;
-    border-radius: 18px;
-    margin: 1rem 0;
-    max-width: 420px;
+      0 14px 30px rgba(0, 0, 0, 0.18),
+      0 6px 14px rgba(0, 0, 0, 0.12);
+    padding: 1.25rem 1.5rem;
+    border-radius: 20px;
+    margin: 1.25rem auto;
+    max-width: 560px;
+  }
+
+  .weight-slider-container:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 18px 40px rgba(0, 0, 0, 0.22),
+      0 8px 18px rgba(0, 0, 0, 0.14);
   }
 
   .slider-title {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.15rem;
+    font-weight: 700;
     margin-bottom: 0.25rem;
-    color: #333;
+    color: rgb(var(--foreground));
+    letter-spacing: -0.01em;
   }
 
   .slider-description {
-    font-size: 0.8rem;
-    color: #666;
+    font-size: 0.9rem;
+    color: rgb(var(--muted-foreground));
     margin-bottom: 1rem;
   }
 
@@ -1182,8 +1298,8 @@
     display: flex;
     justify-content: space-between;
     margin-top: 1rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: #555;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgb(var(--muted-foreground));
   }
 }

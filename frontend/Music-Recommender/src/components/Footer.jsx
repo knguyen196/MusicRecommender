@@ -1,4 +1,4 @@
-﻿﻿// Footer displayed at the bottom of every page
+// Footer displayed at the bottom of every page
 export function Footer() {
   return (
     <footer className="footer">

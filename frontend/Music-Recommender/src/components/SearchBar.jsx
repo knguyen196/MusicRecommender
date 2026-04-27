@@ -1,4 +1,4 @@
-﻿// Search input — submits on Enter or button click
+// Search input — submits on Enter or button click
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Search } from 'lucide-react'
