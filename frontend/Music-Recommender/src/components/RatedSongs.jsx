@@ -22,7 +22,7 @@ export function RatedSongs({ ratings, onRate }) {
         animate={{ opacity: 1, y: 0 }}
         className="rated-songs-title"
       >
-        Your rated songs and podcasts.
+        Your Rated Songs and Podcasts
       </motion.h1>
 
       <div className="rated-section">
@@ -49,7 +49,7 @@ export function RatedSongs({ ratings, onRate }) {
 
       <div className="rated-section">
         <h2 className="rated-section-title">
-          Disliked songs and podcasts. ({dislikedSongs.length})
+          Disliked Songs and Podcasts. ({dislikedSongs.length})
         </h2>
         {dislikedSongs.length > 0 ? (
           <div className="results-grid">
