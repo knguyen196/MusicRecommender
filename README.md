@@ -3,47 +3,97 @@
 
 ## How to Run
 
-### Frontend (React + Vite)
+# Music Recommender System
+ 
+A personalized music and podcast recommendation system using hybrid filtering techniques. Combines content-based filtering (audio feature analysis) with collaborative filtering (user behavior patterns).
+ 
+## Features
+ 
+- **Hybrid Recommendations** - Adjustable weight slider (0-100%) to blend content-based and collaborative filtering
+- **Cross-Modal Discovery** - Get podcast recommendations based on music taste
+- **Browse by Mood** - Explore music through 6 audio-derived categories
+- **Unified Search** - Search both music and podcasts with filter tabs
+- **Audio Previews** - 30-second preview clips via Deezer API
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend/Music-Recommender
-   ```
+## Tech Stack
+ 
+**Frontend:**
+- React 18 + Vite
+- Framer Motion
+- Lucide React
 
-2. Install dependencies (if not already installed):
-   ```bash
-   npm install
-   ```
-   
-   This will install all required packages including:
-   - React & React DOM
-   - Vite (build tool)
-   - Framer Motion (animations)
-   - Lucide React (icons)
-   - Tailwind CSS (styling)
+**Backend:**
+- Python 3.11+
+- Flask + Flask-CORS
+- scikit-learn (KNN, TF-IDF)
+- librosa (audio features)
+- pandas, numpy
+**APIs:**
+- Deezer API (previews, artwork)
+- Spotify API (dataset collection)
+- iTunes RSS (podcasts)
+## Installation
+ 
+### Prerequisites
+- Node.js 16+
+- Python 3.11+
+### Backend Setup
+ 
+1. Navigate to backend:
+```bash
+cd backend
+```
+ 
+2. Install dependencies:
+```bash
+pip install flask flask-cors scikit-learn pandas numpy requests
+```
+ 
+3. Start the server:
+```bash
+python app.py
+```
+ 
 
-3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+### Frontend Setup
+ 
+1. Navigate to frontend:
+```bash
+cd frontend
+```
+ 
+2. Install dependencies:
+```bash
+npm install
+```
+ 
+3. Start dev server:
+```bash
+npm run dev
+```
+ 
+Frontend runs on `http://localhost:5173`
+ 
+## Usage
+1. Open `http://localhost:5173` in your browser
+2. Search for songs and rate them (like/dislike)
+3. Go to Recommendations page
+4. Adjust the weight slider to tune recommendations
+5. Try cross-modal discovery (music → podcasts)
 
-4. The app will be available at `http://localhost:5173` (or the port shown in the terminal)
+## Dataset
+- **4,658 songs** from Spotify API
+- **818 podcasts** from iTunes RSS
+- **170 music users** + **100 podcast users** (synthetic, patterned)
 
-### Backend (Python)
-
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-
-2. Install required Python packages:
-   ```bash
-   pip install librosa numpy
-   ```
-
-3. Run the feature extraction script:
-   ```bash
-   python feature_extract.py
-   ```
-
-   This will extract audio features from `song.mp3` and print the feature values.
+## API Endpoints
+ 
+**Music:**
+- `POST /api/search` - Search songs
+- `POST /api/recommend` - Get recommendations
+- `GET /api/browse/mood/<mood>` - Browse by mood
+**Podcasts:**
+- `POST /api/podcasts/search` - Search podcasts
+- `POST /api/podcasts/recommend` - Get recommendations
+- `GET /api/podcasts/browse` - Browse categories
+- `POST /api/podcasts/recommend/from-music` - Cross-modal
