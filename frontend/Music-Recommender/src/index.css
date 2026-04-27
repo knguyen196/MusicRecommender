@@ -40,7 +40,9 @@
   body {
     background-color: rgb(var(--background));
     color: rgb(var(--foreground));
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
 
@@ -65,7 +67,9 @@
 
 /* Smooth transitions */
 * {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property:
+    color, background-color, border-color, text-decoration-color, fill, stroke,
+    opacity, box-shadow, transform, filter, backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
@@ -168,7 +172,9 @@
   .nav-button-active {
     background-color: rgb(var(--foreground));
     color: rgb(var(--background));
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   .nav-button-inactive {
@@ -314,7 +320,12 @@
   .search-glow {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgb(var(--muted-teal) / 0.2), rgb(var(--deep-teal) / 0.2), rgb(var(--dark-slate-grey) / 0.2));
+    background: linear-gradient(
+      to right,
+      rgb(var(--muted-teal) / 0.2),
+      rgb(var(--deep-teal) / 0.2),
+      rgb(var(--dark-slate-grey) / 0.2)
+    );
     border-radius: 1rem;
     filter: blur(24px);
     opacity: 0;
@@ -333,7 +344,9 @@
     background-color: rgb(var(--card));
     border: 1px solid rgb(var(--border) / 0.5);
     border-radius: 1rem;
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.05),
+      0 8px 10px -6px rgb(0 0 0 / 0.05);
     overflow: hidden;
   }
 
@@ -394,7 +407,12 @@
 
   .hero-title-gradient {
     display: block;
-    background: linear-gradient(to right, rgb(var(--muted-teal)), rgb(var(--deep-teal)), rgb(var(--dark-slate-grey)));
+    background: linear-gradient(
+      to right,
+      rgb(var(--muted-teal)),
+      rgb(var(--deep-teal)),
+      rgb(var(--dark-slate-grey))
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -437,7 +455,10 @@
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
   }
 
   .view-mode-btn:hover {
@@ -490,7 +511,9 @@
       0 10px 20px rgba(0, 0, 0, 0.1),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
     text-align: center;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
   }
 
   .song-card:hover {
@@ -585,7 +608,9 @@
       0 4px 6px rgba(0, 0, 0, 0.07),
       0 10px 20px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transition: box-shadow 0.25s ease, transform 0.25s ease;
+    transition:
+      box-shadow 0.25s ease,
+      transform 0.25s ease;
   }
 
   .album-collapse-card:hover {
@@ -768,6 +793,12 @@
     gap: 1rem;
   }
 
+  .browse-category-podcast {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
   @media (min-width: 640px) {
     .browse-category-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -786,60 +817,143 @@
     border-radius: 1rem;
     padding: 1.5rem;
     color: white;
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow:
+      0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
     transition-property: box-shadow;
   }
 
   .browse-category-button:hover {
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    box-shadow:
+      0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 
   .browse-category-pop {
-    background: linear-gradient(to bottom right, rgb(var(--muted-teal)), rgb(var(--deep-teal)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--muted-teal)),
+      rgb(var(--deep-teal))
+    );
   }
 
   .browse-category-rock {
-    background: linear-gradient(to bottom right, rgb(var(--deep-teal)), rgb(var(--dark-slate-grey)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--deep-teal)),
+      rgb(var(--dark-slate-grey))
+    );
   }
 
   .browse-category-electronic {
-    background: linear-gradient(to bottom right, rgb(var(--muted-teal)), rgb(var(--dark-slate-grey)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--muted-teal)),
+      rgb(var(--dark-slate-grey))
+    );
   }
 
   .browse-category-jazz {
-    background: linear-gradient(to bottom right, rgb(var(--deep-teal)), rgb(var(--charcoal-blue)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--deep-teal)),
+      rgb(var(--charcoal-blue))
+    );
   }
 
   .browse-category-classical {
-    background: linear-gradient(to bottom right, rgb(var(--dark-slate-grey)), rgb(var(--charcoal-blue)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--dark-slate-grey)),
+      rgb(var(--charcoal-blue))
+    );
   }
 
   .browse-category-hiphop {
-    background: linear-gradient(to bottom right, rgb(var(--muted-teal)), rgb(var(--charcoal-blue)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--muted-teal)),
+      rgb(var(--charcoal-blue))
+    );
   }
 
   .browse-category-tech {
-    background: linear-gradient(to bottom right, rgb(var(--muted-teal)), rgb(var(--deep-teal)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--muted-teal)),
+      rgb(var(--deep-teal))
+    );
   }
 
   .browse-category-crime {
-    background: linear-gradient(to bottom right, rgb(var(--deep-teal)), rgb(var(--dark-slate-grey)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--deep-teal)),
+      rgb(var(--dark-slate-grey))
+    );
   }
 
   .browse-category-science {
-    background: linear-gradient(to bottom right, rgb(var(--muted-teal)), rgb(var(--dark-slate-grey)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--muted-teal)),
+      rgb(var(--dark-slate-grey))
+    );
   }
 
   .browse-category-business {
-    background: linear-gradient(to bottom right, rgb(var(--deep-teal)), rgb(var(--charcoal-blue)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--deep-teal)),
+      rgb(var(--charcoal-blue))
+    );
   }
 
   .browse-category-health {
-    background: linear-gradient(to bottom right, rgb(var(--muted-teal)), rgb(var(--charcoal-blue)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--muted-teal)),
+      rgb(var(--charcoal-blue))
+    );
   }
 
   .browse-category-comedy {
-    background: linear-gradient(to bottom right, rgb(var(--dark-slate-grey)), rgb(var(--charcoal-blue)));
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--dark-slate-grey)),
+      rgb(var(--charcoal-blue))
+    );
+  }
+
+  .browse-category-history {
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--muted-teal)),
+      rgb(var(--charcoal-blue))
+    );
+  }
+
+  .browse-category-news {
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--dark-slate-grey)),
+      rgb(var(--charcoal-blue))
+    );
+  }
+
+  .browse-category-sports {
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--muted-teal)),
+      rgb(var(--charcoal-blue))
+    );
+  }
+  .browse-category-education {
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--deep-teal)),
+      rgb(var(--charcoal-blue))
+    );
   }
 
   .browse-category-icon {
@@ -1031,7 +1145,11 @@
     width: 100%;
     height: 8px;
     border-radius: 5px;
-    background: linear-gradient(to right, rgb(var(--muted-teal)) 0%, rgb(var(--deep-teal)) 100%);
+    background: linear-gradient(
+      to right,
+      rgb(var(--muted-teal)) 0%,
+      rgb(var(--deep-teal)) 100%
+    );
     outline: none;
     -webkit-appearance: none;
     appearance: none;

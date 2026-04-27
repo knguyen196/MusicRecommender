@@ -61,6 +61,14 @@ export function BrowseSection({ ratings, onRate }) {
     { name: "Business", colorClass: "browse-category-business", icon: Podcast },
     { name: "Health", colorClass: "browse-category-health", icon: Podcast },
     { name: "Comedy", colorClass: "browse-category-comedy", icon: Podcast },
+    { name: "History", colorClass: "browse-category-history", icon: Podcast },
+    { name: "News", colorClass: "browse-category-news", icon: Podcast },
+    { name: "Sports", colorClass: "browse-category-sports", icon: Podcast },
+    {
+      name: "Education",
+      colorClass: "browse-category-education",
+      icon: Podcast,
+    },
   ];
 
   const handleCategoryClick = async (categoryId, categoryName) => {
@@ -232,7 +240,7 @@ export function BrowseSection({ ratings, onRate }) {
           <Podcast className="section-title-icon-orange" />
           Podcast Categories
         </h2>
-        <div className="browse-category-grid">
+        <div className="browse-category-podcast">
           {podcastCategories.map((cat, index) => (
             <motion.button
               key={cat.name}
