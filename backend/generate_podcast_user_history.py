@@ -11,15 +11,15 @@ MAX_PODCASTS_PER_USER = 40
 df = pd.read_csv(
     DATASET_PATH,
     low_memory=False,
-    usecols=["show.name", "rank"]
+    usecols=["show.name", "category"]
 )
 
 df = df.rename(columns={"show.name": "podcast_name"})
-df["rank"] = pd.to_numeric(df["rank"], errors="coerce").fillna(999999)
+df["category"] = pd.to_numeric(df["category"], errors="coerce").fillna(999999)
 
 # unique podcasts
 unique_podcasts = (
-    df.sort_values("rank")
+    df.sort_values("category")
       .drop_duplicates(subset=["podcast_name"])
       .reset_index(drop=True)
 )

@@ -13,7 +13,7 @@ def fetch_itunes_podcasts():
         'Comedy': 'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1303/json',
         'Science': 'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1315/json',
         'Health': 'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1512/json',
-        'History': 'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1462/json',
+        'Music': 'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json',
         'News': 'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1489/json',
         'Sports': 'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1545/json',
         'Education': 'https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1304/json'
