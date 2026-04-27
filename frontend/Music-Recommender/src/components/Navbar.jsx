@@ -1,3 +1,4 @@
+// Top navigation bar links to all sections and collapses to a menu on mobile
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Sparkles, Headphones, Radio, Heart, Menu, X, Search } from 'lucide-react'
@@ -14,7 +15,7 @@ export function Navbar({ activeSection, setActiveSection }) {
   ]
 
   return (
-    <motion.nav 
+    <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -22,10 +23,8 @@ export function Navbar({ activeSection, setActiveSection }) {
     >
       <div className="navbar-container">
         <div className="navbar-content">
-          {/* Title */}
           <h1 className="navbar-title">Music Recommender</h1>
-          
-          {/* Desktop Navigation */}
+
           <div className="nav-desktop">
             {navItems.map((item) => (
               <motion.button
@@ -45,7 +44,6 @@ export function Navbar({ activeSection, setActiveSection }) {
             ))}
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="mobile-menu-button"
@@ -54,7 +52,6 @@ export function Navbar({ activeSection, setActiveSection }) {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
@@ -90,4 +87,3 @@ export function Navbar({ activeSection, setActiveSection }) {
     </motion.nav>
   )
 }
-

@@ -27,3 +27,13 @@ node_modules/
 .history/
 .DS_Store
 .env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+*.egg-info/

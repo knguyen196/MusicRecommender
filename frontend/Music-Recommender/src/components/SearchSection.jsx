@@ -1,95 +1,94 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { SearchBar } from './SearchBar'
-import SongCard from './SongCard'
-import { AlbumCollapseCard } from './AlbumCollapseCard'
-import ballads1 from './ui/dummyimages/ballads1.png'
-import nectar from './ui/dummyimages/nectar.png'
-import smithereens from './ui/dummyimages/smithereens.jpg'
-import pissinthewind from './ui/dummyimages/pissinthewind.jpg'
+// Search page queries music and podcasts simultaneously and shows filtered results
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { SearchBar } from "./SearchBar";
+import SongCard from "./SongCard";
 
-// Dummy data (popularity 1–100 for "Most popular" sort)
-const DUMMY_SONGS = [
-  { id: 1, title: "Glimpse of Us", artist: "Joji", album: "Smithereens", image: smithereens, popularity: 92 },
-  { id: 2, title: "SLOW DANCING IN THE DARK", artist: "Joji", album: "BALLADS 1", image: ballads1, popularity: 95 },
-  { id: 3, title: "Die For You", artist: "Joji", album: "Smithereens", image: smithereens, popularity: 78 },
-  { id: 4, title: "YEAH RIGHT", artist: "Joji", album: "BALLADS 1", image: ballads1, popularity: 88 },
-  { id: 5, title: "Sanctuary", artist: "Joji", album: "Nectar", image: nectar, popularity: 85 },
-  { id: 6, title: "Like You Do", artist: "Joji", album: "Nectar", image: nectar, popularity: 72 },
-  { id: 7, title: "NIGHT RIDER", artist: "Joji", album: "Smithereens", image: smithereens, popularity: 65 },
-  { id: 8, title: "Dior", artist: "Joji", album: "Piss In The Wind", image: pissinthewind, popularity: 58 }
-];
+export function SearchSection({
+  searchQuery,
+  setSearchQuery,
+  ratings,
+  onRate,
+}) {
+  const [isSearching, setIsSearching] = useState(false);
+  const [musicResults, setMusicResults] = useState([]);
+  const [podcastResults, setPodcastResults] = useState([]);
+  const [hasSearched, setHasSearched] = useState(false);
+  const [filterTab, setFilterTab] = useState("all");
 
-const VIEW_MODES = [
-  { id: 'all', label: 'All' },
-  { id: 'album', label: 'By album' },
-  { id: 'popular', label: 'Most popular' },
-  { id: 'liked', label: 'Likes' },
-  { id: 'disliked', label: 'Dislikes' }
-]
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return;
 
-export function SearchSection({ searchQuery, setSearchQuery, ratings, onRate }) {
-  const [isSearching, setIsSearching] = useState(false)
-  const [searchResults, setSearchResults] = useState([])
-  const [viewMode, setViewMode] = useState('all')
+    setIsSearching(true);
+    setHasSearched(true);
+    setFilterTab("all");
 
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      setIsSearching(true)
+    try {
+      const [musicRes, podcastRes] = await Promise.all([
+        fetch("http://localhost:5000/api/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: searchQuery }),
+        }),
+        fetch("http://localhost:5000/api/podcasts/search", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query: searchQuery }),
+        }),
+      ]);
 
-      setTimeout(() => {
-        const results = DUMMY_SONGS.filter(song =>
-          song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          song.artist.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-        setSearchResults(results)
-        setIsSearching(false)
-      }, 500)
+      const musicData = await musicRes.json();
+      const podcastData = await podcastRes.json();
+
+      setMusicResults(musicData.results || []);
+      setPodcastResults(podcastData.results || []);
+    } catch (error) {
+      console.error("Search failed:", error);
+      setMusicResults([]);
+      setPodcastResults([]);
+    } finally {
+      setIsSearching(false);
     }
-  }
+  };
 
-  // Filter by likes/dislikes when view mode is liked or disliked
-  const filteredResults = (() => {
-    if (viewMode === 'liked') {
-      return searchResults.filter(song => ratings[song.id]?.rating === 'Like')
-    }
-    if (viewMode === 'disliked') {
-      return searchResults.filter(song => ratings[song.id]?.rating === 'Dislike')
-    }
-    return searchResults
-  })()
+  const allResults = [...musicResults, ...podcastResults];
 
-  // Sort by popularity (desc) when "Most popular" is selected
-  const sortedResults = viewMode === 'popular'
-    ? [...filteredResults].sort((a, b) => (b.popularity ?? 0) - (a.popularity ?? 0))
-    : filteredResults
+  const tabFilteredResults = (() => {
+    if (filterTab === "music") return musicResults;
+    if (filterTab === "podcasts") return podcastResults;
+    return allResults;
+  })();
 
-  // Group by album when "By album" is selected
-  const byAlbum = viewMode === 'album'
-    ? sortedResults.reduce((acc, song) => {
-        const album = song.album || 'Unknown'
-        if (!acc[album]) acc[album] = []
-        acc[album].push(song)
-        return acc
-      }, {})
-    : null
+  const tabStyle = (tab) => ({
+    padding: "8px 20px",
+    borderRadius: "20px",
+    border:
+      filterTab === tab
+        ? `2px solid rgb(var(--deep-teal))`
+        : "2px solid transparent",
+    background:
+      filterTab === tab
+        ? "linear-gradient(135deg, rgb(var(--muted-teal)) 0%, rgb(var(--deep-teal)) 100%)"
+        : "rgb(var(--card))",
+    color: filterTab === tab ? "white" : "rgb(var(--muted-foreground))",
+    cursor: "pointer",
+    fontWeight: filterTab === tab ? "bold" : "normal",
+    transition: "all 0.3s",
+  });
 
   return (
     <div className="section-container">
-      {/* Hero Section */}
       <div className="hero-section">
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.5 }}
           className="hero-title"
         >
           Discover Your Next
-          <span className="hero-title-gradient">
-            Favorite Sound
-          </span>
+          <span className="hero-title-gradient">Favorite Sound</span>
         </motion.h1>
-        
+
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -100,75 +99,82 @@ export function SearchSection({ searchQuery, setSearchQuery, ratings, onRate }) 
         </motion.p>
       </div>
 
-      {/* Search Bar */}
-      <SearchBar 
+      <SearchBar
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         onSearch={handleSearch}
       />
-      
-      {/* Search Results */}
+
       {isSearching && (
-        <div className = "loading">
-          <p>Searching</p>
-          </div>
+        <div className="loading">
+          <p>Searching...</p>
+        </div>
       )}
 
-      {!isSearching && searchResults.length > 0 && (
-        <div className="search-results">
-          <h2>Search Results</h2>
-          <div className="search-results-controls">
-            {VIEW_MODES.map(({ id, label }) => (
+      {hasSearched &&
+        !isSearching &&
+        (musicResults.length > 0 || podcastResults.length > 0) && (
+          <div className="search-results">
+            <h2>Results</h2>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "10px",
+                marginBottom: "20px",
+              }}
+            >
               <button
-                key={id}
-                type="button"
-                className={`view-mode-btn ${viewMode === id ? 'view-mode-btn-active' : ''}`}
-                onClick={() => setViewMode(id)}
+                onClick={() => setFilterTab("all")}
+                style={tabStyle("all")}
               >
-                {label}
+                All ({allResults.length})
               </button>
-            ))}
+              <button
+                onClick={() => setFilterTab("music")}
+                style={tabStyle("music")}
+              >
+                🎵 Music ({musicResults.length})
+              </button>
+              <button
+                onClick={() => setFilterTab("podcasts")}
+                style={tabStyle("podcasts")}
+              >
+                🎙️ Podcasts ({podcastResults.length})
+              </button>
+            </div>
+
+            {tabFilteredResults.length === 0 ? (
+              <div className="no-results">
+                <p>
+                  No {filterTab === "all" ? "" : filterTab} results in this
+                  category.
+                </p>
+              </div>
+            ) : (
+              <div className="results-grid">
+                {tabFilteredResults.map((item) => (
+                  <SongCard
+                    key={item.id}
+                    song={item}
+                    onRate={onRate}
+                    userRating={ratings[item.id]?.rating}
+                  />
+                ))}
+              </div>
+            )}
           </div>
-          {viewMode === 'album' && byAlbum ? (
-            <div className="search-results-by-album">
-              {Object.entries(byAlbum).map(([albumName, songs]) => (
-                <AlbumCollapseCard
-                  key={albumName}
-                  albumName={albumName}
-                  songs={songs}
-                  onRate={onRate}
-                  ratings={ratings}
-                />
-              ))}
-            </div>
-          ) : sortedResults.length === 0 ? (
-            <div className="no-results">
-              <p>
-                {viewMode === 'liked' && 'No liked songs in these results.'}
-                {viewMode === 'disliked' && 'No disliked songs in these results.'}
-              </p>
-            </div>
-          ) : (
-            <div className="results-grid">
-              {sortedResults.map(song => (
-                <SongCard
-                  key={song.id}
-                  song={song}
-                  onRate={onRate}
-                  userRating={ratings[song.id]?.rating}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+        )}
 
-      {!isSearching && searchResults.length === 0 && searchQuery.trim() && (
-        <div className="no-results">
-          <p>No results found for "{searchQuery}"</p>
-        </div>
-      )}
+      {hasSearched &&
+        !isSearching &&
+        musicResults.length === 0 &&
+        podcastResults.length === 0 && (
+          <div className="no-results">
+            <p>No results found for "{searchQuery}"</p>
+          </div>
+        )}
     </div>
-  )
+  );
 }
-

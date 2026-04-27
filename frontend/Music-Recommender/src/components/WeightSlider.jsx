@@ -1,3 +1,4 @@
+// Slider that controls the blend between content-based and collaborative recommendations
 import React from 'react'
 import { motion } from 'framer-motion'
 

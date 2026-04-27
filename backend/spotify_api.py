@@ -47,7 +47,7 @@ class SpotifyClient:
         token = self._get_access_token()
 
         for attempt in range(5):
-            time.sleep(0.25)  
+            time.sleep(0.25)
 
             response = requests.get(
                 "https://api.spotify.com/v1/search",
@@ -67,6 +67,9 @@ class SpotifyClient:
                 time.sleep(wait)
                 continue
 
+            if response.status_code != 200:
+                print(f"HTTP {response.status_code} for '{query}'")
+                return []
 
             try:
                 data = response.json()
@@ -76,30 +79,25 @@ class SpotifyClient:
                 time.sleep(wait)
                 continue
 
-
             if "error" in data:
                 print(f"Spotify API error for '{query}': {data['error']}")
                 return []
 
-            break
+            results = []
+            for track in data.get("tracks", {}).get("items", []):
+                results.append({
+                    "spotify_id": track["id"],
+                    "name": track["name"],
+                    "artist": track["artists"][0]["name"],
+                    "album": track["album"]["name"],
+                    "cover_url": track["album"]["images"][0]["url"]
+                    if track["album"]["images"] else None,
+                })
 
-        else:
-            print(f"Failed to fetch Spotify data for '{query}' after retries, skipping.")
-            return []
+            return results
 
-
-        results = []
-        for track in data.get("tracks", {}).get("items", []):
-            results.append({
-                "spotify_id": track["id"],
-                "name": track["name"],
-                "artist": track["artists"][0]["name"],
-                "album": track["album"]["name"],
-                "cover_url": track["album"]["images"][0]["url"]
-                if track["album"]["images"] else None,
-            })
-
-        return results
+        print(f"Failed to fetch Spotify data for '{query}' after retries")
+        return []
 
     def get_audio_features(self, track_id):
         token = self._get_access_token()
