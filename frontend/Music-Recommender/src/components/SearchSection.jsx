@@ -15,6 +15,7 @@ export function SearchSection({
   const [podcastResults, setPodcastResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [filterTab, setFilterTab] = useState("all");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
@@ -22,28 +23,49 @@ export function SearchSection({
     setIsSearching(true);
     setHasSearched(true);
     setFilterTab("all");
+    setErrorMessage("");
 
     try {
       const [musicRes, podcastRes] = await Promise.all([
-        fetch("http://localhost:5000/api/search", {
+        fetch("/api/search", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query: searchQuery }),
         }),
-        fetch("http://localhost:5000/api/podcasts/search", {
+        fetch("/api/podcasts/search", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query: searchQuery }),
         }),
       ]);
 
-      const musicData = await musicRes.json();
-      const podcastData = await podcastRes.json();
+      if (!musicRes.ok || !podcastRes.ok) {
+        const musicText = await musicRes.text().catch(() => "");
+        const podcastText = await podcastRes.text().catch(() => "");
+        console.error("Search API error:", {
+          musicStatus: musicRes.status,
+          podcastStatus: podcastRes.status,
+          musicBody: musicText,
+          podcastBody: podcastText,
+        });
+        setErrorMessage(
+          "Search failed (API error). Make sure the backend is running on port 5000.",
+        );
+        setMusicResults([]);
+        setPodcastResults([]);
+        return;
+      }
+
+      const musicData = await musicRes.json().catch(() => ({}));
+      const podcastData = await podcastRes.json().catch(() => ({}));
 
       setMusicResults(musicData.results || []);
       setPodcastResults(podcastData.results || []);
     } catch (error) {
       console.error("Search failed:", error);
+      setErrorMessage(
+        "Search failed (network error). Make sure the backend is running and reachable.",
+      );
       setMusicResults([]);
       setPodcastResults([]);
     } finally {
@@ -86,7 +108,7 @@ export function SearchSection({
           className="hero-title"
         >
           Discover Your Next
-          <span className="hero-title-gradient">Favorite Sound</span>
+          <span className="hero-title-gradient"> Favorite Sound</span>
         </motion.h1>
 
         <motion.p
@@ -104,6 +126,12 @@ export function SearchSection({
         setSearchQuery={setSearchQuery}
         onSearch={handleSearch}
       />
+
+      {errorMessage && (
+        <div className="no-results">
+          <p>{errorMessage}</p>
+        </div>
+      )}
 
       {isSearching && (
         <div className="loading">

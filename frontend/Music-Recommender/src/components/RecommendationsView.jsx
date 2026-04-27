@@ -24,8 +24,8 @@ export function RecommendationsView({ ratings, onRate }) {
     try {
       const endpoint =
         type === "music"
-          ? "http://localhost:5000/api/recommend"
-          : "http://localhost:5000/api/podcasts/recommend";
+          ? "/api/recommend"
+          : "/api/podcasts/recommend";
 
       const response = await fetch(endpoint, {
         method: "POST",
@@ -70,7 +70,7 @@ export function RecommendationsView({ ratings, onRate }) {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/podcasts/recommend/from-music",
+        "/api/podcasts/recommend/from-music",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
