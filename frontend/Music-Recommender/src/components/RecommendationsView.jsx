@@ -1,3 +1,4 @@
+// Recommendations page fetches and displays personalized music and podcast recommendations
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { WeightSlider } from "./WeightSlider";
@@ -5,10 +6,11 @@ import SongCard from "./SongCard";
 
 export function RecommendationsView({ ratings, onRate }) {
   const [weight, setWeight] = useState(50);
-  const [musicRecommendations, setMusicRecommendations] = useState([]); // ← Separate state
-  const [podcastRecommendations, setPodcastRecommendations] = useState([]); // ← Separate state
+  const [musicRecommendations, setMusicRecommendations] = useState([]);
+  const [podcastRecommendations, setPodcastRecommendations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [contentTab, setContentTab] = useState("music");
+  const [crossModalInfo, setCrossModalInfo] = useState(null);
   const hasInitialFetch = useRef({ music: false, podcasts: false });
   const debounceTimer = useRef(null);
 
@@ -37,11 +39,11 @@ export function RecommendationsView({ ratings, onRate }) {
       const data = await response.json();
 
       if (data.recommendations) {
-        // Update the correct state based on type
         if (type === "music") {
           setMusicRecommendations(data.recommendations);
         } else {
           setPodcastRecommendations(data.recommendations);
+          setCrossModalInfo(null);
         }
       } else {
         console.error(`No ${type} recommendations:`, data.error);
@@ -63,7 +65,34 @@ export function RecommendationsView({ ratings, onRate }) {
     }
   };
 
-  // Fetch when component mounts
+  const handleGetPodcastsFromMusic = async () => {
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/podcasts/recommend/from-music",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ratings }),
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setPodcastRecommendations(data.recommendations);
+        setCrossModalInfo({ moods: data.moods, categories: data.categories });
+      } else {
+        console.error("Error:", data.error);
+      }
+    } catch (error) {
+      console.error("Error fetching cross-modal recommendations:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (hasRatings && !hasInitialFetch.current[contentTab]) {
       fetchRecommendations(contentTab);
@@ -71,7 +100,6 @@ export function RecommendationsView({ ratings, onRate }) {
     }
   }, []);
 
-  // Fetch when weight changes (only for current tab)
   useEffect(() => {
     if (hasRatings && hasInitialFetch.current[contentTab]) {
       if (debounceTimer.current) {
@@ -90,7 +118,6 @@ export function RecommendationsView({ ratings, onRate }) {
     }
   }, [weight]);
 
-  // Fetch when tab changes (if not already fetched)
   useEffect(() => {
     if (hasRatings && !hasInitialFetch.current[contentTab]) {
       fetchRecommendations(contentTab);
@@ -98,7 +125,6 @@ export function RecommendationsView({ ratings, onRate }) {
     }
   }, [contentTab]);
 
-  // Get current recommendations based on active tab
   const currentRecommendations =
     contentTab === "music" ? musicRecommendations : podcastRecommendations;
 
@@ -126,7 +152,6 @@ export function RecommendationsView({ ratings, onRate }) {
         Based on your listening preferences and similar users
       </motion.p>
 
-      {/* Content Tabs */}
       <div
         style={{
           display: "flex",
@@ -183,15 +208,87 @@ export function RecommendationsView({ ratings, onRate }) {
         </button>
       </div>
 
+      {contentTab === "podcasts" && hasRatings && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "1rem",
+          }}
+        >
+          <button
+            onClick={handleGetPodcastsFromMusic}
+            style={{
+              padding: "0.75rem 1.5rem",
+              borderRadius: "8px",
+              border: "none",
+              background:
+                "linear-gradient(135deg, rgb(var(--muted-teal)) 0%, rgb(var(--deep-teal)) 100%)",
+              color: "white",
+              cursor: "pointer",
+              fontSize: "0.95rem",
+              fontWeight: "500",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+            }}
+          >
+            Get Podcast Recommendations Based on My Music Taste
+          </button>
+        </div>
+      )}
+
       <WeightSlider weight={weight} setWeight={setWeight} />
+
+      {contentTab === "podcasts" && crossModalInfo && (
+        <div
+          style={{
+            background: "rgb(var(--card))",
+            border: "1px solid rgb(var(--muted-teal) / 0.4)",
+            borderRadius: "12px",
+            padding: "0.9rem 1.25rem",
+            marginBottom: "1rem",
+            textAlign: "center",
+          }}
+        >
+          <p style={{ margin: 0, fontWeight: 600 }}>
+            Based on your{" "}
+            <span style={{ color: "rgb(var(--muted-teal))" }}>
+              {crossModalInfo.moods?.join(", ").replace(/-/g, " ")}
+            </span>{" "}
+            music taste
+          </p>
+          <p
+            style={{
+              margin: "0.3rem 0 0",
+              fontSize: "0.85rem",
+              color: "rgb(var(--muted-foreground))",
+            }}
+          >
+            Exploring: {crossModalInfo.categories.join(", ")}
+          </p>
+        </div>
+      )}
 
       {hasRatings ? (
         <div className="recommendations-section">
           <h2 className="section-heading">Recommended For You</h2>
 
+          {!loading && currentRecommendations.length > 0 && (
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "0.8rem",
+                color: "rgb(var(--muted-foreground))",
+                marginBottom: "1rem",
+              }}
+            >
+              {weight}% {contentTab === "music" ? "song" : "description"}{" "}
+              similarity · {100 - weight}% listener patterns
+            </p>
+          )}
+
           {loading ? (
             <div className="loading">
-              <p>Generating recommendations...</p>
+              <p>Generating recommendations</p>
             </div>
           ) : currentRecommendations.length > 0 ? (
             <div className="results-grid">

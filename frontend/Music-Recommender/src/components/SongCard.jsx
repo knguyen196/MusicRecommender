@@ -1,8 +1,6 @@
-import React from "react";
-
+﻿// Card component for a song or podcast with like/dislike rating buttons
 export default function SongCard({ song, onRate, userRating }) {
   const handleRate = (rating) => {
-    // If clicking the same rating again, clear it (toggle functionality)
     if (userRating === rating) {
       onRate(song.id, null, song);
     } else {
@@ -38,6 +36,18 @@ export default function SongCard({ song, onRate, userRating }) {
         <p className="song-title">{song.title || song.name}</p>
         <p className="song-artist">{song.artist}</p>
         {song.album && <p className="song-album">{song.album}</p>}
+        {song.reason && (
+          <p
+            style={{
+              fontSize: "0.72rem",
+              color: "rgb(var(--muted-foreground))",
+              fontStyle: "italic",
+              marginTop: "0.25rem",
+            }}
+          >
+            {song.reason}
+          </p>
+        )}
       </div>
 
       {song.preview_url && (

@@ -1,3 +1,4 @@
+# Content-based music recommender — uses KNN on extracted audio features to find similar songs
 import pickle
 import numpy as np
 from sklearn.neighbors import NearestNeighbors

@@ -1,3 +1,4 @@
+﻿﻿﻿// Browse page lets users explore songs and podcasts by mood or category
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Music, Podcast } from "lucide-react";
@@ -14,42 +15,42 @@ export function BrowseSection({ ratings, onRate }) {
       name: "High Energy",
       colorClass: "browse-category-pop",
       icon: Music,
-      description: "⚡ Loud, intense, powerful",
+      description: "Loud, intense, powerful",
     },
     {
       id: "chill",
       name: "Chill",
       colorClass: "browse-category-electronic",
       icon: Music,
-      description: "🌊 Calm, relaxed, mellow",
+      description: "Calm, relaxed, mellow",
     },
     {
       id: "fast-tempo",
       name: "Fast Tempo",
       colorClass: "browse-category-rock",
       icon: Music,
-      description: "🏃 Upbeat, danceable",
+      description: "Upbeat, danceable",
     },
     {
       id: "slow-tempo",
       name: "Slow Tempo",
       colorClass: "browse-category-jazz",
       icon: Music,
-      description: "🐌 Slow, contemplative",
+      description: "Slow, contemplative",
     },
     {
       id: "bright",
       name: "Bright",
       colorClass: "browse-category-classical",
       icon: Music,
-      description: "✨ Crisp, uplifting",
+      description: "Crisp, uplifting",
     },
     {
       id: "dark",
       name: "Dark",
       colorClass: "browse-category-hiphop",
       icon: Music,
-      description: "🌙 Deep, moody",
+      description: "Deep, moody",
     },
   ];
 
@@ -63,7 +64,7 @@ export function BrowseSection({ ratings, onRate }) {
   ];
 
   const handleCategoryClick = async (categoryId, categoryName) => {
-    setSelectedCategory({ id: categoryId, name: categoryName });
+    setSelectedCategory({ id: categoryId, name: categoryName, type: "music" });
     setLoading(true);
 
     try {
@@ -74,6 +75,28 @@ export function BrowseSection({ ratings, onRate }) {
       setCategorySongs(data.songs || []);
     } catch (error) {
       console.error("Browse error:", error);
+      setCategorySongs([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePodcastCategoryClick = async (categoryName) => {
+    setSelectedCategory({
+      id: categoryName,
+      name: categoryName,
+      type: "podcast",
+    });
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/podcasts/browse/${encodeURIComponent(categoryName)}`,
+      );
+      const data = await response.json();
+      setCategorySongs(data.podcasts || []);
+    } catch (error) {
+      console.error("Browse podcasts error:", error);
       setCategorySongs([]);
     } finally {
       setLoading(false);
@@ -115,22 +138,28 @@ export function BrowseSection({ ratings, onRate }) {
 
           {loading ? (
             <div className="loading">
-              <p>Loading songs</p>
+              <p>
+                Loading{" "}
+                {selectedCategory.type === "podcast" ? "podcasts" : "songs"}...
+              </p>
             </div>
           ) : categorySongs.length > 0 ? (
             <div className="results-grid">
-              {categorySongs.map((song) => (
+              {categorySongs.map((item) => (
                 <SongCard
-                  key={song.id}
-                  song={song}
+                  key={item.id}
+                  song={item}
                   onRate={onRate}
-                  userRating={ratings[song.id]?.rating}
+                  userRating={ratings[item.id]?.rating}
                 />
               ))}
             </div>
           ) : (
             <div className="no-results">
-              <p>No songs found for this category</p>
+              <p>
+                No {selectedCategory.type === "podcast" ? "podcasts" : "songs"}{" "}
+                found for this category
+              </p>
             </div>
           )}
         </div>
@@ -213,7 +242,7 @@ export function BrowseSection({ ratings, onRate }) {
               whileHover={{ scale: 1.05, y: -4 }}
               whileTap={{ scale: 0.98 }}
               className={`browse-category-button ${cat.colorClass}`}
-              style={{ opacity: 0.6, cursor: "not-allowed" }}
+              onClick={() => handlePodcastCategoryClick(cat.name)}
             >
               <cat.icon className="browse-category-icon" />
               <span className="browse-category-name">{cat.name}</span>

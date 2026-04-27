@@ -1,3 +1,4 @@
+# Content-based podcast recommender uses TF-IDF on show descriptions to find similar podcasts
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel
@@ -7,14 +8,18 @@ class PodcastRecommender:
     def __init__(self, df: pd.DataFrame):
         self.df = df.copy().reset_index(drop=True)
 
-        self.podcast_names = self.df["podcast_name"].astype(str).tolist()
+        self.podcast_names = self.df["show.name"].astype(str).tolist()
+
+
+        self.df["show.description"] = self.df["show.description"].fillna("")
 
         self.vectorizer = TfidfVectorizer(
             stop_words="english",
             max_features=20000
         )
 
-        self.tfidf_matrix = self.vectorizer.fit_transform(self.df["combined_features"])
+
+        self.tfidf_matrix = self.vectorizer.fit_transform(self.df["show.description"])
 
     def recommend(self, podcast_name: str, top_n: int = 5):
         matches = [
@@ -43,7 +48,7 @@ class PodcastRecommender:
             if i == idx:
                 continue
 
-            name = self.df.iloc[i]["podcast_name"]
+            name = self.df.iloc[i]["show.name"]
 
             if name in seen:
                 continue
@@ -52,7 +57,7 @@ class PodcastRecommender:
 
             results.append({
                 "name": name,
-                "similarity": float(cosine_scores[i])
+                "score": float(cosine_scores[i])
             })
 
             if len(results) >= top_n:

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "./components/Navbar";
 import { SearchSection } from "./components/SearchSection";
@@ -8,12 +8,11 @@ import { Footer } from "./components/Footer";
 import { RatedSongs } from "./components/RatedSongs";
 import { RecommendationsView } from "./components/RecommendationsView";
 
-// Main App Component
+// Root component manages global ratings state and page navigation
 function App() {
   const [activeSection, setActiveSection] = useState("search");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Load ratings from localStorage on initial render
   const [ratings, setRatings] = useState(() => {
     const savedRatings = localStorage.getItem("songRatings");
     return savedRatings ? JSON.parse(savedRatings) : {};
