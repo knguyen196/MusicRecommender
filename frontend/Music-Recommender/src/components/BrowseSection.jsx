@@ -61,7 +61,7 @@ export function BrowseSection({ ratings, onRate }) {
     { name: "Business", colorClass: "browse-category-business", icon: Podcast },
     { name: "Health", colorClass: "browse-category-health", icon: Podcast },
     { name: "Comedy", colorClass: "browse-category-comedy", icon: Podcast },
-    { name: "History", colorClass: "browse-category-history", icon: Podcast },
+    { name: "Music", colorClass: "browse-category-music", icon: Podcast },
     { name: "News", colorClass: "browse-category-news", icon: Podcast },
     { name: "Sports", colorClass: "browse-category-sports", icon: Podcast },
     {
