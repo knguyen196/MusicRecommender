@@ -37,6 +37,9 @@ export function SearchSection({
         }),
       ]);
 
+      if (!musicRes.ok) throw new Error("Music search failed");
+      if (!podcastRes.ok) throw new Error("Podcast search failed");
+
       const musicData = await musicRes.json();
       const podcastData = await podcastRes.json();
 

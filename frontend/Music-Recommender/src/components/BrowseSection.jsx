@@ -79,6 +79,7 @@ export function BrowseSection({ ratings, onRate }) {
       const response = await fetch(
         `http://localhost:5000/api/browse/mood/${categoryId}`,
       );
+      if (!response.ok) throw new Error("Failed to load category");
       const data = await response.json();
       setCategorySongs(data.songs || []);
     } catch (error) {
@@ -101,6 +102,7 @@ export function BrowseSection({ ratings, onRate }) {
       const response = await fetch(
         `http://localhost:5000/api/podcasts/browse/${encodeURIComponent(categoryName)}`,
       );
+      if (!response.ok) throw new Error("Failed to load podcast category");
       const data = await response.json();
       setCategorySongs(data.podcasts || []);
     } catch (error) {
